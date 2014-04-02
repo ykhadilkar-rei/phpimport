@@ -38,7 +38,6 @@ function get_map($source) {
     'contact_email' => array('mbox', 1),
     'contact_name' => array('contactPoint', 1),
     'unique_id' => array('identifier', 1),
-    'tag' => array('keyword', 0),
     'tags' => array('keyword', 0),
     'tag_string' => array('keyword', 0),
     'data_dictionary' => array('dataDictionary', 1),
