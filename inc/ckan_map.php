@@ -164,7 +164,7 @@ function ckan_map($server, $map, $dataset) {
   }
   else {
     //replace anything weird with "-"
-    $new_dataset['name'] = preg_replace('/[\s\W]+/', '-', strtolower($new_dataset['title']));
+    $new_dataset['name'] = preg_replace('/[\s\W]+/', '-', mb_strtolower($new_dataset['title'], 'ascii'));
     $new_dataset['name'] = substr($new_dataset['name'], 0, 100);
     $new_dataset['name'] = trim($new_dataset['name'], '-');
   }
