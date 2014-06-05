@@ -51,6 +51,7 @@ switch ($server['source_type']) {
 
   case 'json':
   case 'datajson':
+  case 'socratajson':
     $datasets = $ret;
     $j = count($datasets);
     for ($i=0; $i < $j; $i++) {

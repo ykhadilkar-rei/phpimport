@@ -40,12 +40,20 @@ function curl_http_request($server, $json_query="", $action='package') {
     }
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_query);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    'Content-Length: ' . strlen($json_query),
-    'Content-Type: application/json;charset=utf-8',
-    'X-CKAN-API-Key: ' . $server['api'],
-    ));
+
+    if(property_exists(json_decode($json_query),"upload")){
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_decode($json_query));
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-CKAN-API-Key: ' . $server['api'],
+      ));
+    }else{
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $json_query);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Length: ' . strlen($json_query),
+        'Content-Type: application/json;charset=utf-8',
+        'X-CKAN-API-Key: ' . $server['api'],
+      ));
+    }
   }
 
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

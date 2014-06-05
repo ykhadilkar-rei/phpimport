@@ -68,12 +68,18 @@ function add_dataset($server, $map, $dataset) {
 
   // need to create resource?
   $b_has_resource = false;
+  if ($type == "socratajson"){
+    $dataset = flaten_socrata_json($dataset);
+  }
+
   if (
     ($type == 'json' && !empty($dataset['accessURL'])) 
     || 
     ($type == 'datajson' && (!empty($dataset['distribution']) || !empty($dataset['accessURL']) || !empty($dataset['webService'])))
     || 
     ($type == 'ckan' && !empty($dataset['resources']))
+    ||
+    ($type == 'socratajson' && !empty($dataset['distribution']))
     ) {
     $b_has_resource = true;
   }
@@ -116,6 +122,26 @@ function add_dataset($server, $map, $dataset) {
         }
         break;
 
+      case 'socratajson':
+        //check distribution first, if empty, use flattened resource structure.
+        // manual mapping.
+
+        $resources = array();
+        if (!empty($dataset['distribution'])) {
+          foreach ($dataset['distribution'] as $distribution) {
+            if(isset($distribution['upload'])){
+              $upload = $distribution['upload'];
+              $resources[] = array(
+                'upload' => "@".$upload,
+                'format' => $distribution['format'],
+                'name' => $distribution['name']
+              );
+            }
+          }
+        }
+
+        break;
+
       case 'ckan':
         $resources = $dataset['resources'];
         break;
@@ -136,10 +162,17 @@ function add_dataset($server, $map, $dataset) {
         }
         $data[$key] = $resource[$value[0]];
       }
-      $data['mimetype'] = $data['format'];
 
-      $json_query = json_encode($data);
-      $ret = curl_http_request($server, $json_query, 'resource');
+      //for JSON from socrata we will be uploading file to datastore.
+//      if($type == "socratajson"){
+//        $json_query = json_encode($data);
+//        $ret = curl_http_request($server, $json_query, 'resource');
+//      }else{
+        $data['mimetype'] = $data['format'];
+        $json_query = json_encode($data);
+        $ret = curl_http_request($server, $json_query, 'resource');
+      //}
+
       if (empty($ret['id'])) {
         die(print_r($ret, true) . "\n");
       }

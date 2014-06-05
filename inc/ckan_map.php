@@ -3,6 +3,10 @@
 function ckan_map($server, $map, $dataset) {
   $type = $server['source_type'];
 
+  if($type == "socratajson"){
+    $dataset = flaten_socrata_json($dataset);
+  }
+
   //an empty new dataset
   $new_dataset = array(
     'extras' => array(),
@@ -25,6 +29,7 @@ function ckan_map($server, $map, $dataset) {
 
       case 'json:tags':
       case 'datajson:tags':
+      case 'socratajson:tags':
       case 'ckan:tags':
         $new_dataset[$key] = array();
         $tags = $dataset[$value[0]];
@@ -50,6 +55,9 @@ function ckan_map($server, $map, $dataset) {
       case 'datajson:bureau_code':
       case 'datajson:program_code':
       case 'datajson:category':
+      case 'socratajson:bureau_code':
+      case 'socratajson:program_code':
+      case 'socratajson:category':
         if (isset($dataset[$value[0]])) {
           $codes = $dataset[$value[0]];
           $new_dataset[$key] = implode(", ", $codes);
@@ -334,6 +342,51 @@ function _find_extras_value($dataset, $name) {
   }
 }
 
+//helper function to flaten the dataset array from socrata
+function flaten_socrata_json($dataset){
+  $flat_dataset['title'] = $dataset['name'];
+  $flat_dataset['description'] = $dataset['description'];
 
+  if(isset($dataset['tags'])){
+    $flat_dataset['keyword'] = $dataset['tags'];
+  }else{
+    $flat_dataset['keyword'] = ['no-tag'];
+  }
+
+  $flat_dataset['modified'] = $dataset['metadata']['custom_fields']['Dataset Summary']['Date Updated'];
+  $flat_dataset['publisher'] = $dataset['metadata']['custom_fields']['Dataset Summary']['Agency'];
+  $flat_dataset['contactPoint'] = $dataset['owner']['displayName'];
+
+  if(isset($dataset['metadata']['custom_fields']['Dataset Information']['Unique ID'])
+    && !empty($dataset['metadata']['custom_fields']['Dataset Information']['Unique ID'])){
+    $flat_dataset['identifier'] = $dataset['metadata']['custom_fields']['Dataset Information']['Unique ID'];
+  }else{
+    $flat_dataset['identifier'] = $dataset['id'];
+  }
+
+
+  //TODO:Find correct mapping for below fields.
+  $flat_dataset['mbox'] = "test@reisys.com";
+  $flat_dataset['bureauCode'] = ["018:10"];
+  $flat_dataset['programCode'] = ["018:001"];
+  $flat_dataset['accessLevel'] = "public";
+  $flat_dataset['accessLevelComment'] = "sample access level comment";
+  $flat_dataset['license'] = "GNU Free Documentation License";
+  $flat_dataset['landingPage'] = $dataset['metadata']['custom_fields']['Contributing Agency Information']['Agency Program Page'];
+  $flat_dataset['spatial'] = "Lincoln, Nebraska";
+  $flat_dataset['theme'] = ["Administrative","Next Generation"];
+  $flat_dataset['dataDictionary'] = $dataset['metadata']['custom_fields']['Contributing Agency Information']['Agency Data Series Page'];
+  $flat_dataset['dataQuality'] = $dataset['metadata']['custom_fields']['Data Quality']['Data Quality Certification'];
+  $flat_dataset['accrualPeriodicity'] = $dataset['metadata']['custom_fields']['Dataset Summary']['Frequency'];
+  $flat_dataset['landingPage'] = $dataset['metadata']['custom_fields']['Contributing Agency Information']['Agency Program Page'];
+  $flat_dataset['language'] = ["es-MX","wo","nv","en-US"];
+  $flat_dataset['PrimaryITInvestmentUII'] = "023-000000001";
+  $flat_dataset['references'] = [$dataset['metadata']['custom_fields']['Additional Dataset Documentation']['Technical Documentation']];
+  $flat_dataset['issued'] = $dataset['metadata']['custom_fields']['Dataset Summary']['Date Released'];
+  $flat_dataset['systemOfRecords'] = $dataset['metadata']['custom_fields']['Additional Dataset Documentation']['Technical Documentation'];
+  $flat_dataset['distribution'] = $dataset['distribution'];
+
+  return $flat_dataset;
+}
 
 
