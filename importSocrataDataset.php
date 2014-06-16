@@ -62,7 +62,7 @@ if (empty($map)) {
 switch ($server['source_type']) {
 
     case 'socratajson':
-
+        $count = 1;
         for ($i = 0; $i < $number_of_datasets; $i++) {
             $current_ds = $dataset_meta_Data[$i];
             $server["url_src"] = $current_ds['MetaData Download URL'];
@@ -75,20 +75,24 @@ switch ($server['source_type']) {
 
             if (empty($ret)) {
                 die("No datasets fetched.");
-            }
-            //add resource in distribution
-            $ret['distribution'][0]['upload'] = $server["data_folder_path"].$current_ds['DS Name'];
-            $ret['distribution'][0]['format'] = 'text/CSV';
-            $ret['distribution'][0]['name'] = $current_ds['Name'];
+            }else if (empty($ret['id'])){
+                echo('Can not add dataset ' . $count . '/' . $number_of_datasets . ': ' . $current_ds['Name'] . ".\n");
+            }else{
+                //add resource in distribution
+                $ret['distribution'][0]['upload'] = $server["data_folder_path"].$current_ds['File Name'];
+                $ret['distribution'][0]['format'] = 'text/CSV';
+                $ret['distribution'][0]['name'] = $current_ds['Name'];
 
-            $dataset_name = add_dataset($server, $map, $ret);
-            $count = $i + 1;
-            echo('Added ' . $count . '/' . $number_of_datasets . ': ' . $dataset_name . ".\n");
+                $dataset_name = add_dataset($server, $map, $ret);
+                echo('Added ' . $count . '/' . $number_of_datasets . ': ' . $dataset_name . ".\n");
+            }
+            $count = $count + 1;
         }
         break;
 
     default:
     //
 }
-
+//data pusher
+//post here /dataset/achievement-results-for-state-assessments-in-mathematics-school-year-2010-11-1402692841/resource_data/444b624b-d84d-4fc4-81bf-c74e8c850a09
 

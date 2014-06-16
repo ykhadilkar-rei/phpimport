@@ -342,7 +342,12 @@ function _find_extras_value($dataset, $name)
 function flaten_socrata_json($dataset)
 {
     $flat_dataset['title'] = $dataset['name'];
-    $flat_dataset['description'] = $dataset['description'];
+
+    if(!empty($dataset['description'])){
+        $flat_dataset['description'] = $dataset['description'];
+    }else{
+        $flat_dataset['description'] = "Coming soon.";
+    }
 
     if (isset($dataset['tags'])) {
         $flat_dataset['keyword'] = $dataset['tags'];

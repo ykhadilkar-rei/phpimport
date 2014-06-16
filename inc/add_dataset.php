@@ -56,7 +56,8 @@ function add_dataset($server, $map, $dataset)
                 echo("    Name: $org_name\n");
                 echo("    Title: $org_title\n");
             } else {
-                die(print_r($ret, true) . "\n");
+                print_r($ret, true) . "\n";
+                continue;
             }
             $new_ds['owner_org'] = $org_name;
             $json_query = json_encode($new_ds);
@@ -160,18 +161,14 @@ function add_dataset($server, $map, $dataset)
                 $data[$key] = $resource[$value[0]];
             }
 
-            //for JSON from socrata we will be uploading file to datastore.
-//      if($type == "socratajson"){
-//        $json_query = json_encode($data);
-//        $ret = curl_http_request($server, $json_query, 'resource');
-//      }else{
             $data['mimetype'] = $data['format'];
             $json_query = json_encode($data);
             $ret = curl_http_request($server, $json_query, 'resource');
-            //}
 
             if (empty($ret['id'])) {
                 die(print_r($ret, true) . "\n");
+//                echo('Error uploading resource file ...'.$resource['name'].' dataset id : '.$data['package_id']);
+//                print_r($ret, true);
             }
         }
 
