@@ -71,7 +71,8 @@ switch ($server['source_type']) {
             $ret = curl_http_request($server);
 
             //org
-            $server["org"] = $current_ds['Agency'];
+            $remove_char = array(" ","(", ")", ":",".");
+            $server["org"] = strtolower(str_replace($remove_char,"-",$current_ds['Agency']));
 
             if (empty($ret)) {
                 die("No datasets fetched.");
@@ -80,7 +81,7 @@ switch ($server['source_type']) {
             }else{
                 //add resource in distribution
                 $ret['distribution'][0]['upload'] = $server["data_folder_path"].$current_ds['File Name'];
-                $ret['distribution'][0]['format'] = 'text/CSV';
+                $ret['distribution'][0]['format'] = 'CSV';
                 $ret['distribution'][0]['name'] = $current_ds['Name'];
 
                 $dataset_name = add_dataset($server, $map, $ret);
@@ -93,6 +94,5 @@ switch ($server['source_type']) {
     default:
     //
 }
-//data pusher
-//post here /dataset/achievement-results-for-state-assessments-in-mathematics-school-year-2010-11-1402692841/resource_data/444b624b-d84d-4fc4-81bf-c74e8c850a09
+
 
