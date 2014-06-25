@@ -31,9 +31,9 @@ $number_of_datasets = count($dataset_meta_Data);
 //parse ini file and put all info into $server array
 $ini_array = parse_ini_file("ini/server.ini", true);
 
-//if (!isset($ini_array[$env])) {
-//    die("Could not find server info for $env.\n");
-//}
+if (!isset($ini_array[$env])) {
+    die("Could not find server info for $env.\n");
+}
 
 $server = array(
     "source_type" => $ini_array['source_type'],
@@ -82,7 +82,7 @@ switch ($server['source_type']) {
                 //add resource in distribution
                 $ret['distribution'][0]['upload'] = $server["data_folder_path"].$current_ds['File Name'];
                 $ret['distribution'][0]['format'] = 'CSV';
-                $ret['distribution'][0]['name'] = $current_ds['Name'];
+                $ret['distribution'][0]['name'] = $current_ds['File Name'];
 
                 $dataset_name = add_dataset($server, $map, $ret);
                 echo('Added ' . $count . '/' . $number_of_datasets . ': ' . $dataset_name . ".\n");

@@ -9,9 +9,10 @@
 $dir = $argv[1];
 
 // start at -1 number of rows excluding header row. 
-$i = -1;
+$i = 0;
 if ($handle = opendir($dir)) {
     echo "Start counting .. .\n";
+    echo "Filename, Number of Rows\n";
     while (($file = readdir($handle)) !== false){
         if (endsWith($file,".csv") && !is_dir($dir.$file)){
             $i++;
@@ -22,7 +23,7 @@ if ($handle = opendir($dir)) {
                 $linecount++;
             }
             fclose($fh);
-            echo "Filename: ".$file.", Number of rows: ".$linecount."\n";
+            echo $file.",".($linecount-1)."\n";
         }
     }
 }
