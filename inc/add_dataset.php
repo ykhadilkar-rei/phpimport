@@ -1,9 +1,9 @@
 <?php
-function add_dataset($server, $map, $dataset)
+function add_dataset($server, $map, $dataset, $file_data=null)
 {
     $type = $server['source_type'];
     //mapping fields
-    $new_ds = ckan_map($server, $map, $dataset);
+    $new_ds = ckan_map($server, $map, $dataset, $file_data);
     $json_query = json_encode($new_ds);
 
 
@@ -68,7 +68,8 @@ function add_dataset($server, $map, $dataset)
     // need to create resource?
     $b_has_resource = false;
     if ($type == "socratajson") {
-        $dataset = flaten_socrata_json($dataset);
+        $dataset = flaten_socrata_json($dataset, $file_data);
+
     }
 
     if (

@@ -58,6 +58,7 @@ if (empty($map)) {
     die("Could not find map for {$server['source_type']}.\n");
 }
 
+$file = 'dataset_names_'.time().'.txt';
 //post datasets into desination server
 switch ($server['source_type']) {
 
@@ -84,8 +85,10 @@ switch ($server['source_type']) {
                 $ret['distribution'][0]['format'] = 'CSV';
                 $ret['distribution'][0]['name'] = $current_ds['File Name'];
 
-                $dataset_name = add_dataset($server, $map, $ret);
-                echo('Added ' . $count . '/' . $number_of_datasets . ': ' . $dataset_name . ".\n");
+                $dataset_name = add_dataset($server, $map, $ret, $current_ds);
+                $output = 'Added ' . $count . '/' . $number_of_datasets . ': ' . $dataset_name . ".\n";
+                echo($output);
+                file_put_contents($file, $output, FILE_APPEND | LOCK_EX);
             }
             $count = $count + 1;
         }
