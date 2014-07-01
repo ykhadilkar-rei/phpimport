@@ -355,7 +355,7 @@ function flaten_socrata_json($dataset, $file_data=null)
         $flat_dataset['keyword'] = ['no-tag'];
     }
 
-    $flat_dataset['modified'] = $dataset['metadata']['custom_fields']['Dataset Summary']['Date Updated'];
+    ///$flat_dataset['modified'] = $dataset['metadata']['custom_fields']['Dataset Summary']['Date Updated'];
     $flat_dataset['publisher'] = $dataset['metadata']['custom_fields']['Dataset Summary']['Agency'];
     $flat_dataset['contactPoint'] = $dataset['owner']['displayName'];
 
@@ -383,15 +383,30 @@ function flaten_socrata_json($dataset, $file_data=null)
     //$flat_dataset['spatial'] = "Lincoln, Nebraska";
     $flat_dataset['theme'] = $dataset['category'];
     $flat_dataset['dataDictionary'] = $dataset['metadata']['custom_fields']['Contributing Agency Information']['Agency Data Series Page'];
-    $flat_dataset['dataQuality'] = $dataset['metadata']['custom_fields']['Data Quality']['Data Quality Certification'];
+
+    if($dataset['metadata']['custom_fields']['Data Quality']['Data Quality Certification'] == 'true' ||
+        $dataset['metadata']['custom_fields']['Data Quality']['Data Quality Certification'] == 'false'){
+        $flat_dataset['dataQuality'] = $dataset['metadata']['custom_fields']['Data Quality']['Data Quality Certification'];
+    }
     $flat_dataset['accrualPeriodicity'] = $dataset['metadata']['custom_fields']['Dataset Summary']['Frequency'];
     $flat_dataset['landingPage'] = $dataset['metadata']['custom_fields']['Contributing Agency Information']['Agency Program Page'];
-    //$flat_dataset['language'] = ["es-MX", "wo", "nv", "en-US"];
+    $flat_dataset['language'] = ["us-EN"];
+
     //$flat_dataset['PrimaryITInvestmentUII'] = "023-000000001";
     $flat_dataset['references'] = [$dataset['metadata']['custom_fields']['Additional Dataset Documentation']['Technical Documentation']];
-    $flat_dataset['issued'] = $dataset['metadata']['custom_fields']['Dataset Summary']['Date Released'];
+
+    if (!empty($dataset['metadata']['custom_fields']['Dataset Summary']['Date Released'])){
+        $date = new DateTime($dataset['metadata']['custom_fields']['Dataset Summary']['Date Released']);
+        $flat_dataset['issued'] = $date->format("Y-m-d");
+    } else {
+        $flat_dataset['issued'] = date("Y-m-d",$dataset['createdAt']);
+    }
     //$flat_dataset['systemOfRecords'] = $dataset['metadata']['custom_fields']['Additional Dataset Documentation']['Technical Documentation'];
     $flat_dataset['distribution'] = $dataset['distribution'];
+    //$flat_dataset['modified'] = date("Y-m-d",$dataset['rowsUpdatedAt']);
+
+    $modified_date = date("Y-m-d",$dataset['rowsUpdatedAt']);
+    $flat_dataset['modified'] = $modified_date;
 
     return $flat_dataset;
 }

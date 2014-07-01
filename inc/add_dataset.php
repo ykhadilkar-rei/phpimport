@@ -176,7 +176,7 @@ function add_dataset($server, $map, $dataset, $file_data=null)
     }
 
     //2nd map for $type == 'datajson'
-    if ($type == 'datajson') {
+    if ($type == 'datajson' || $type == 'socratajson') {
         // fetch the newly created dataset, then update.
         // this is workaround for the weird issue during creation.
         $json_query = array(
@@ -214,7 +214,7 @@ function add_dataset($server, $map, $dataset, $file_data=null)
     }
 
     // all done. return dataset name to caller.
-    return $result['name'];
+    return $result;
 }
 
 

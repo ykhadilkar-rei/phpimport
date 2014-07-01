@@ -55,9 +55,9 @@ switch ($server['source_type']) {
         $datasets = $ret;
         $j = count($datasets);
         for ($i = 0; $i < $j; $i++) {
-            $dataset_name = add_dataset($server, $map, $datasets[$i]);
+            $dataset = add_dataset($server, $map, $datasets[$i]);
             $count = $i + 1;
-            echo('Added ' . $count . '/' . $j . ': ' . $dataset_name . ".\n");
+            echo('Added ' . $count . '/' . $j . ': ' . $dataset['name'] . ".\n");
         }
         break;
 
@@ -79,10 +79,10 @@ switch ($server['source_type']) {
             }
 
             foreach ($datasets as $dataset) {
-                $dataset_name = add_dataset($server, $map, $dataset);
-                if (strlen($dataset_name)) {
+                $dataset = add_dataset($server, $map, $dataset);
+                if (strlen($dataset['name'])) {
                     $finishe_count++;
-                    echo('Added ' . $finishe_count . '/' . $total . ': ' . $dataset_name . ".\n");
+                    echo('Added ' . $finishe_count . '/' . $total . ': ' . $dataset['name'] . ".\n");
                 }
             }
             $datasets = array();

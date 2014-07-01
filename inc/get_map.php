@@ -88,6 +88,7 @@ function get_map($source)
         'upload' => array('upload', 2),
         'format' => array('format', 2),
         'name' => array('name', 2),
+        'modified' => array('modified',1),
     );
 
     // 'dest_key' => array('source_key', dest_position, source_position)

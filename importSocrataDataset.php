@@ -85,9 +85,14 @@ switch ($server['source_type']) {
                 $ret['distribution'][0]['format'] = 'CSV';
                 $ret['distribution'][0]['name'] = $current_ds['File Name'];
 
-                $dataset_name = add_dataset($server, $map, $ret, $current_ds);
-                $output = 'Added ' . $count . '/' . $number_of_datasets . ': ' . $dataset_name . ".\n";
+                $dataset = add_dataset($server, $map, $ret, $current_ds);
+
+                //sample resource url - http://qa-datastore-fe-data.reisys.com/dataset/db1a3a30-41ee-46a1-b9d7-a2bfb8ca0943/resource/4b2ccc4d-706d-4516-b203-bd99e5cb5ff8
+
+                $output = 'Added ' . $count . '/' . $number_of_datasets . ': ' . $dataset['name'] . ", ";
+                $output .= '/dataset/'.$dataset['id'].'/resource/'.$dataset['resources'][0]['id']."\n";
                 echo($output);
+
                 file_put_contents($file, $output, FILE_APPEND | LOCK_EX);
             }
             $count = $count + 1;
