@@ -53,6 +53,7 @@ function curl_http_request($server, $json_query = "", $action = 'package')
         }
     }
 
+    curl_setopt($ch, CURLOPT_COOKIE, "auth_tkt=abc");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     if (!empty($server['auth']) && !empty($server['auth']['user'])) {
         curl_setopt($ch, CURLOPT_USERPWD, $server['auth']['user'] . ":" . $server['auth']['password']);
