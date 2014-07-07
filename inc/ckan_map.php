@@ -382,7 +382,12 @@ function flaten_socrata_json($dataset, $file_data=null)
     $flat_dataset['landingPage'] = $dataset['metadata']['custom_fields']['Contributing Agency Information']['Agency Program Page'];
     //$flat_dataset['spatial'] = "Lincoln, Nebraska";
     $flat_dataset['theme'] = $dataset['category'];
-    $flat_dataset['dataDictionary'] = $dataset['metadata']['custom_fields']['Contributing Agency Information']['Agency Data Series Page'];
+
+    if(!empty($dataset['metadata']['custom_fields']['Data Description']['Data Dictionary'])){
+        $flat_dataset['dataDictionary'] = $dataset['metadata']['custom_fields']['Data Description']['Data Dictionary'];
+    }else{
+        $flat_dataset['dataDictionary'] = $dataset['metadata']['custom_fields']['Contributing Agency Information']['Agency Data Series Page'];
+    }
 
     if($dataset['metadata']['custom_fields']['Data Quality']['Data Quality Certification'] == 'true' ||
         $dataset['metadata']['custom_fields']['Data Quality']['Data Quality Certification'] == 'false'){
@@ -395,18 +400,30 @@ function flaten_socrata_json($dataset, $file_data=null)
     //$flat_dataset['PrimaryITInvestmentUII'] = "023-000000001";
     $flat_dataset['references'] = [$dataset['metadata']['custom_fields']['Additional Dataset Documentation']['Technical Documentation']];
 
-    if (!empty($dataset['metadata']['custom_fields']['Dataset Summary']['Date Released'])){
+    if (!empty($dataset['metadata']['custom_fields']['Dataset Summary']['Date Released'])
+        && isValidTimeStamp($dataset['metadata']['custom_fields']['Dataset Summary']['Date Released'])){
         $date = new DateTime($dataset['metadata']['custom_fields']['Dataset Summary']['Date Released']);
         $flat_dataset['issued'] = $date->format("Y-m-d");
-    } else {
+    } else if (!empty($dataset['createdAt'])
+        && isValidTimeStamp($dataset['createdAt'])){
         $flat_dataset['issued'] = date("Y-m-d",$dataset['createdAt']);
     }
     //$flat_dataset['systemOfRecords'] = $dataset['metadata']['custom_fields']['Additional Dataset Documentation']['Technical Documentation'];
     $flat_dataset['distribution'] = $dataset['distribution'];
     //$flat_dataset['modified'] = date("Y-m-d",$dataset['rowsUpdatedAt']);
 
-    $modified_date = date("Y-m-d",$dataset['rowsUpdatedAt']);
-    $flat_dataset['modified'] = $modified_date;
+    if (!empty($dataset['rowsUpdatedAt'])
+        && isValidTimeStamp($dataset['rowsUpdatedAt'])){
+        $modified_date = date("Y-m-d",$dataset['rowsUpdatedAt']);
+        $flat_dataset['modified'] = $modified_date;
+    }
 
     return $flat_dataset;
+}
+
+function isValidTimeStamp($timestamp)
+{
+    return ((string) (int) $timestamp == $timestamp)
+    && ($timestamp <= PHP_INT_MAX)
+    && ($timestamp >= ~PHP_INT_MAX);
 }

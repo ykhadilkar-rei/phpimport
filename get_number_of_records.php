@@ -109,7 +109,7 @@ function count_number_of_csv_rows($file_address){
 function http_get_request($search_url){
     $ch = curl_init($search_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
+    curl_setopt($ch, CURLOPT_COOKIE, "auth_tkt=abc");
     if (!empty($server['auth']) && !empty($server['auth']['user'])) {
         curl_setopt($ch, CURLOPT_USERPWD, $server['auth']['user'] . ":" . $server['auth']['password']);
     }
