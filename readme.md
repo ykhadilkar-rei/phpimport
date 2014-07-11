@@ -1,6 +1,6 @@
 Run following command to import JSON datasets
 
-php import.php <environment> <organization name>
+php import.php environment-name organization-name
 
 e.g. php import.php prod test-organization
 
