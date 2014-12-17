@@ -27,7 +27,7 @@
 		"systemOfRecords" : "http://www.agency.gov/vegetables",
         "distribution": [
             {
-                "upload": "/Users/ykhadilkar/Documents/OpenGov/Projects/GovDashboard/sampleCSVs/colors_17.csv",
+                "url": "http://khadilkar.net/default/files/colors_17.csv",
                 "format": "text/CSV",
                 "name": "Colors File"
             }
