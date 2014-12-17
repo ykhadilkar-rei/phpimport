@@ -14,23 +14,16 @@
         "accessLevelComment":"this is access level comment coming from JSON",
         "license" : "GNU Free Documentation License",
         "landingPage" : "http://www.khadilkar.net",
-		"spatial" : "Lincoln, Nebraska",
-		"theme" : ["vegetables","produce"],
-		"dataDictionary" : "http://www.agency.gov/vegetables/dictionary.html",
-		"dataQuality":"on",
-		"accrualPeriodicity" : "Annual",
-		"landingPage" : "http://www.agency.gov/vegetables",
-		"language" : ["es-MX","wo","nv","en-US"],
-		"PrimaryITInvestmentUII":"023-000000001",
-		"references":["http://www.agency.gov/legumes/legumes_data_documentation.html","http://www.agency.gov/fruits/fruit_data_documentation.html"],
-		"issued":"2001-01-15",
-		"systemOfRecords" : "http://www.agency.gov/vegetables",
-        "distribution": [
-            {
-                "url": "http://www.khadilkar.net/default/files/colors_17.csv",
-                "format": "text/CSV",
-                "name": "Colors File"
-            }
-        ]  
+	"spatial" : "Lincoln, Nebraska",
+	"theme" : ["vegetables","produce"],
+	"dataDictionary" : "http://www.agency.gov/vegetables/dictionary.html",
+	"dataQuality":"on",
+	"accrualPeriodicity" : "Annual",
+	"landingPage" : "http://www.agency.gov/vegetables",
+	"language" : ["es-MX","wo","nv","en-US"],
+	"PrimaryITInvestmentUII":"023-000000001",
+	"references":["http://www.agency.gov/legumes/legumes_data_documentation.html","http://www.agency.gov/fruits/fruit_data_documentation.html"],
+	"issued":"2001-01-15",
+	"systemOfRecords" : "http://www.agency.gov/vegetables"
     }
 ]
