@@ -24,6 +24,13 @@
 	"PrimaryITInvestmentUII":"023-000000001-xxx",
 	"references":["http://www.agency.gov/legumes/legumes_data_documentation.html","http://www.agency.gov/fruits/fruit_data_documentation.html"],
 	"issued":"2001-01-15-xx",
-	"systemOfRecords" : "http://ooo.agency.gov/vegetables"
+	"systemOfRecords" : "http://ooo.agency.gov/vegetables",
+	"distribution": [
+	{
+		"url": "http://www.khadilkar.net/default/files/colors_17.csv",
+		"format": "text/CSV",
+		"name": "Colors File"
+	}
+
     }
 ]
