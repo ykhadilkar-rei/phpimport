@@ -9,7 +9,7 @@
         "mbox": "ykhadilkar@reisys.com",
         "identifier": "1",
         "accessLevel": "public",
-        "bureauCode": ["018:10"],
+        "bureauCode": ["018:100"],
         "programCode": ["018:001"],
         "accessLevelComment":"this is access level comment coming from JSON",
         "license" : "GNU Free Documentation License",
@@ -21,7 +21,7 @@
 	"accrualPeriodicity" : "Annual",
 	"landingPage" : "http://www.agency.gov/vegetables",
 	"language" : ["es-MX","wo","nv","en-US"],
-	"PrimaryITInvestmentUII":"023-000000001",
+	"PrimaryITInvestmentUII":"023-000000001-xxx",
 	"references":["http://www.agency.gov/legumes/legumes_data_documentation.html","http://www.agency.gov/fruits/fruit_data_documentation.html"],
 	"issued":"2001-01-15",
 	"systemOfRecords" : "http://www.agency.gov/vegetables"
