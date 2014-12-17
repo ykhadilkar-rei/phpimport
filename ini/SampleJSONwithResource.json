@@ -26,11 +26,12 @@
 	"issued":"2001-01-15-xx",
 	"systemOfRecords" : "http://ooo.agency.gov/vegetables",
 	"distribution": [
-	{
+		{
 		"url": "http://www.khadilkar.net/default/files/colors_17.csv",
 		"format": "text/CSV",
 		"name": "Colors File"
-	}
+		}
+	]
 
     }
 ]
