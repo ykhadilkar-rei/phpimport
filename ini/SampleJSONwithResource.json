@@ -27,7 +27,7 @@
 		"systemOfRecords" : "http://www.agency.gov/vegetables",
         "distribution": [
             {
-                "url": "http://khadilkar.net/default/files/colors_17.csv",
+                "url": "http://www.khadilkar.net/default/files/colors_17.csv",
                 "format": "text/CSV",
                 "name": "Colors File"
             }
